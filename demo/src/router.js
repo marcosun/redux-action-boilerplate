@@ -1,28 +1,42 @@
-/**
- * This module specifies routes of this app
- * @module Demo/Router
- * @requires react
- * @requires react-router-dom
- * @requires {@link module:Post}
- */
 import React from 'react';
 import {
   BrowserRouter,
   Route,
+  Switch,
 } from 'react-router-dom';
-
-// Require Pages
-import Post from './Post';
+import lodable from 'react-loadable';
 
 /**
+ * Return router
  * @return {Router}
  */
-export default function Router() {
-  return (
-    <BrowserRouter>
-      <div>
-        <Route exact path="/" component={Post} />
-      </div>
-    </BrowserRouter>
-  );
+export default class Router extends React.Component {
+  /**
+   * @param  {Object} props
+   */
+  constructor(props) {
+    super(props);
+
+    this.Post = lodable({
+      loader: () => {
+        return import('./Post');
+      },
+      loading: () => {
+        return <div>Loading...</div>;
+      },
+    });
+  }
+
+  /**
+   * @return {Component}
+   */
+  render() {
+    return (
+      <BrowserRouter>
+        <Switch>
+          <Route exact path="/" component={this.Post} />
+        </Switch>
+      </BrowserRouter>
+    );
+  }
 }

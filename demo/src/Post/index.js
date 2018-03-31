@@ -3,7 +3,9 @@
  */
 import React from 'react';
 import test from 'Library';
+import {hot} from 'react-hot-loader';
 
+@hot(module)
 /**
  * Export a form call api with post method
  */

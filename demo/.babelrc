@@ -1,12 +1,15 @@
 {
   "presets": [
     "env",
-    "react",
-    "stage-0"
+    "stage-0",
+    "react"
   ],
   "plugins": [
+    "react-hot-loader/babel",
     "transform-decorators-legacy",
-    "react-hot-loader/babel", // Enable react hot loader
-    "syntax-dynamic-import"
+    ["direct-import", [
+      "material-ui",
+      "react-router-dom"
+    ]]
   ]
 }
