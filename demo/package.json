@@ -1,7 +1,7 @@
 {
-  "name": "library-demo",
+  "name": "redux-action-boilerplate-demo",
   "version": "0.0.1",
-  "description": "Demo for component",
+  "description": "Demo for redux-action-boilerplate",
   "main": "src/index.js",
   "scripts": {
     "start": "webpack-dev-server --config ./config/webpack.dev.js --open",

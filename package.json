@@ -1,9 +1,8 @@
 {
-  "name": "js-component-seed",
+  "name": "redux-action-boilerplate",
   "version": "0.0.1",
-  "description": "A seed for writing javascript component",
-  "main": "index.js",
-  "module": "cjs/index.js",
+  "description": "Simple boilerplate for creating react actions",
+  "main": "cjs/index.js",
   "scripts": {
     "build": "node ./config/build.js",
     "analyse": "webpack --config ./config/webpack.analyse.js",
@@ -11,7 +10,7 @@
     "test:watch": "npm test -- --watch",
     "doc": "jsdoc src -r"
   },
-  "repository": "git@github.com:marcosun/js-component-seed.git",
+  "repository": "git@github.com:marcosun/redux-action-boilerplate.git",
   "author": "marcosun <marcoinbristol@gmail.com>",
   "license": "MIT",
   "devDependencies": {
