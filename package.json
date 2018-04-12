@@ -13,6 +13,9 @@
   "repository": "git@github.com:marcosun/redux-action-boilerplate.git",
   "author": "marcosun <marcoinbristol@gmail.com>",
   "license": "MIT",
+  "dependencies": {
+    "humps": "^2.0.1"
+  },
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
