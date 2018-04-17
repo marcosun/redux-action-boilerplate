@@ -5,6 +5,24 @@
 
 ## Usage
 
+This library exposes two constructor functions (class) to generate redux actions.
+Sync creates synchronous actions. Async creates asynchronous actions.
+Both functions accept the following parameters.
+
+|name|type|isRequired|default|remarks|
+|--|--|--|--|--|
+|prefix|String|N|''|Will be prefixed to each and every single action to prevent name conflicts. Recommended to set as page name.|
+|actions|[String]|Y||Action names must be unique under the same name space|
+
+The only difference between Sync and Async functions is that Sync creates one action for each action passed in, while Async maps three actions for each action it received: action, actionSuccess, and actionFailure.
+
+### Naming convention
+
+Action types are capitalised letters separated with underscore, i.e. FETCH_BOOKS.
+Actions are camel cased letters, i.e. fetchBooks.
+
+### Sync
+
     // syncAction.js
     import {Sync} from 'redux-action-boilerplate';
     
@@ -18,6 +36,8 @@
       toggle, // => (payload) => {return {type: 'BOOK_LIST_PAGE/TOGGLE', payload,};}
       TOGGLE, // => 'BOOK_LIST_PAGE/TOGGLE'
     } from './syncAction.js';
+
+### Async
 
     // asyncAction.js
     import {Async} from 'redux-action-boilerplate';
