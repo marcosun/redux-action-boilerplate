@@ -58,4 +58,4 @@ typings/
 .env
 
 # Release path
-cjs
+build
