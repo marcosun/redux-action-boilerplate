@@ -2,7 +2,7 @@
   "name": "redux-action-boilerplate",
   "version": "0.0.2",
   "description": "Simple boilerplate for creating react actions",
-  "main": "cjs/index.js",
+  "main": "index.js",
   "module": "es/index.js",
   "scripts": {
     "prebuild": "rimraf build",
