@@ -7,7 +7,7 @@ export default class Async extends ActionCreator {
   /**
    * @param  {Object} options
    * @param  {String} options.prefix - Action prefix. Must be unique app wide.
-   * @param  {[String]} options.actions - A list of action names.
+   * @param  {String[]} options.actions - A list of action names.
    */
   constructor(options) {
     super(options);
@@ -35,7 +35,7 @@ export default class Async extends ActionCreator {
   }
 
   /**
-   * @param  {[String]} actions
+   * @param  {String[]} actions
    * @return {Object}
    */
   suffixAsyncActions(actions) {

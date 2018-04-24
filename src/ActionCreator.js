@@ -15,14 +15,14 @@ export default class ActionCreator {
   /**
    * @param  {Object} options
    * @param  {String} options.prefix - Action prefix. Must be unique app wide.
-   * @param  {[String]} options.actions - A list of action names.
+   * @param  {String[]} options.actions - A list of action names.
    */
   constructor(options) {
   }
 
   /**
    * @param  {String} prefix
-   * @param  {[String]} actions
+   * @param  {String[]} actions
    * @return {Object}
    */
   convertOptions(prefix, actions) {
@@ -50,7 +50,7 @@ export default class ActionCreator {
 
   /**
    * @param  {String} prefix
-   * @param  {[String]} actions
+   * @param  {String[]} actions
    * @return {Object}
    */
   createActionTypeNameAndActionNameRelations(prefix, actions) {
@@ -74,7 +74,7 @@ export default class ActionCreator {
   /**
    * Bind action types to class instance
    * @param  {String} prefix
-   * @param  {[String]} actionTypeNameToActionNameRelations
+   * @param  {Object} actionTypeNameToActionNameRelations
    */
   bindActionTypes(prefix, actionTypeNameToActionNameRelations) {
     for (let actionTypeName in actionTypeNameToActionNameRelations) {
@@ -86,7 +86,7 @@ export default class ActionCreator {
 
   /**
    * Bind actions to class instance
-   * @param  {[String]} actionNameToActionTypeNameRelations
+   * @param  {Object} actionNameToActionTypeNameRelations
    */
   bindActions(actionNameToActionTypeNameRelations) {
     for (let actionName in actionNameToActionTypeNameRelations) {
