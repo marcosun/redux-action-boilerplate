@@ -1,6 +1,6 @@
 {
   "name": "redux-action-boilerplate",
-  "version": "0.0.2",
+  "version": "1.0.0",
   "description": "Simple boilerplate for creating react actions",
   "main": "index.js",
   "module": "es/index.js",
