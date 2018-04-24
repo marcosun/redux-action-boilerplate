@@ -3,6 +3,7 @@
   "version": "0.0.2",
   "description": "Simple boilerplate for creating react actions",
   "main": "cjs/index.js",
+  "module": "es/index.js",
   "scripts": {
     "prebuild": "rimraf build",
     "build:es2015": "cross-env NODE_ENV=production babel src -d build --ignore *.test.js",
@@ -35,9 +36,5 @@
     "jest": "^22.4.3",
     "jsdoc": "^3.5.5",
     "rimraf": "^2.6.2"
-  },
-  "files": [
-    "lib",
-    "cjs"
-  ]
+  }
 }
