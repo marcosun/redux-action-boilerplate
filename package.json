@@ -4,7 +4,12 @@
   "description": "Simple boilerplate for creating react actions",
   "main": "cjs/index.js",
   "scripts": {
-    "build": "node ./script/build.js",
+    "prebuild": "rimraf build",
+    "build:es2015": "cross-env NODE_ENV=production babel src -d build --ignore *.test.js",
+    "build:es": "cross-env NODE_ENV=production BABEL_ENV=es babel src -d build/es --ignore *.test.js",
+    "build:copy-files": "babel-node ./script/copy-files.js",
+    "build": "yarn prebuild && yarn build:es2015 && yarn build:es && yarn build:copy-files",
+    "version": "yarn build && npm publish build",
     "test": "jest",
     "test:watch": "npm test -- --watch",
     "doc": "jsdoc src -r"
@@ -22,11 +27,13 @@
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-stage-0": "^6.24.1",
+    "cross-env": "^5.1.4",
     "eslint": "^4.19.1",
     "eslint-config-google": "^0.9.1",
     "eslint-plugin-react": "^7.7.0",
     "jest": "^22.4.3",
-    "jsdoc": "^3.5.5"
+    "jsdoc": "^3.5.5",
+    "rimraf": "^2.6.2"
   },
   "files": [
     "lib",

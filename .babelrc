@@ -1,5 +1,5 @@
 {
-  "presets": ["./script/babel-preset"],
+  "presets": ["./script/babel-preset", "stage-0"],
   "env": {
     "test": {
       "plugins": ["transform-es2015-modules-commonjs"]
