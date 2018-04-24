@@ -4,7 +4,7 @@
   "description": "Simple boilerplate for creating react actions",
   "main": "cjs/index.js",
   "scripts": {
-    "build": "node ./config/build.js",
+    "build": "node ./script/build.js",
     "analyse": "webpack --config ./config/webpack.analyse.js",
     "test": "jest",
     "test:watch": "npm test -- --watch",
