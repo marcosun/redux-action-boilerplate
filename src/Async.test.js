@@ -9,12 +9,12 @@ test('Create asynchronise actions and action types', () => {
     ],
   });
 
-  expect(action).toHaveProperty('ASYNC-ACTION-A', 'PAGE-A/ASYNC-ACTION-A');
-  expect(action).toHaveProperty('ASYNC-ACTION-A-SUCCESS', 'PAGE-A/ASYNC-ACTION-A-SUCCESS');
-  expect(action).toHaveProperty('ASYNC-ACTION-A-FAILURE', 'PAGE-A/ASYNC-ACTION-A-FAILURE');
-  expect(action).toHaveProperty('ASYNC-ACTION-B', 'PAGE-A/ASYNC-ACTION-B');
-  expect(action).toHaveProperty('ASYNC-ACTION-B-SUCCESS', 'PAGE-A/ASYNC-ACTION-B-SUCCESS');
-  expect(action).toHaveProperty('ASYNC-ACTION-B-FAILURE', 'PAGE-A/ASYNC-ACTION-B-FAILURE');
+  expect(action).toHaveProperty('ASYNC_ACTION_A', 'PAGE_A/ASYNC_ACTION_A');
+  expect(action).toHaveProperty('ASYNC_ACTION_A_SUCCESS', 'PAGE_A/ASYNC_ACTION_A_SUCCESS');
+  expect(action).toHaveProperty('ASYNC_ACTION_A_FAILURE', 'PAGE_A/ASYNC_ACTION_A_FAILURE');
+  expect(action).toHaveProperty('ASYNC_ACTION_B', 'PAGE_A/ASYNC_ACTION_B');
+  expect(action).toHaveProperty('ASYNC_ACTION_B_SUCCESS', 'PAGE_A/ASYNC_ACTION_B_SUCCESS');
+  expect(action).toHaveProperty('ASYNC_ACTION_B_FAILURE', 'PAGE_A/ASYNC_ACTION_B_FAILURE');
 
   expect(action).toHaveProperty('asyncActionA');
   expect(action).toHaveProperty('asyncActionASuccess');

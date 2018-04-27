@@ -28,7 +28,7 @@ export default class ActionCreator {
   convertOptions(prefix, actions) {
     return {
       prefix: typeof prefix === 'string' ?
-        decamelize(prefix, {separator: '-'}).toUpperCase() :
+        decamelize(prefix, {separator: '_'}).toUpperCase() :
         '',
       actions: actions.map((action) => {
         return camelize(action);
@@ -42,7 +42,7 @@ export default class ActionCreator {
    * @return {String} Prefixed action type name.
    */
   convertActionTypeName(prefix, action) {
-    const decamelisedActionName = decamelize(action, {separator: '-'});
+    const decamelisedActionName = decamelize(action, {separator: '_'});
     const capitalisedActionName = decamelisedActionName.toUpperCase();
 
     return `${prefix}/${capitalisedActionName}`;

@@ -6,33 +6,33 @@ test('Camelise action names', () => {
     'sync-Action_b',
     'Sync actionC',
   ])).toEqual({
-    prefix: 'PAGE-A',
+    prefix: 'PAGE_A',
     actions: ['syncActionA', 'syncActionB', 'syncActionC'],
   });
 });
 
 test('Prefix and capitalise action type names', () => {
   expect(ActionCreator.prototype.convertActionTypeName(
-    'PAGE-A',
+    'PAGE_A',
     'syncActionA',
-  )).toBe('PAGE-A/SYNC-ACTION-A');
+  )).toBe('PAGE_A/SYNC_ACTION_A');
 });
 
 test('Generate two mappings of action type names and action names', () => {
   expect(ActionCreator.prototype.createActionTypeNameAndActionNameRelations(
-    'PAGE-A',
+    'PAGE_A',
     [
       'syncActionA',
       'syncActionB',
     ]
   )).toEqual({
     actionTypeNameToActionNameRelations: {
-      'PAGE-A/SYNC-ACTION-A': 'syncActionA',
-      'PAGE-A/SYNC-ACTION-B': 'syncActionB',
+      'PAGE_A/SYNC_ACTION_A': 'syncActionA',
+      'PAGE_A/SYNC_ACTION_B': 'syncActionB',
     },
     actionNameToActionTypeNameRelations: {
-      'syncActionA': 'PAGE-A/SYNC-ACTION-A',
-      'syncActionB': 'PAGE-A/SYNC-ACTION-B',
+      'syncActionA': 'PAGE_A/SYNC_ACTION_A',
+      'syncActionB': 'PAGE_A/SYNC_ACTION_B',
     },
   });
 });
@@ -40,14 +40,14 @@ test('Generate two mappings of action type names and action names', () => {
 test('Bind action types to class instance', () => {
   const self = {};
 
-  ActionCreator.prototype.bindActionTypes.call(self, 'PAGE-A', {
-    'PAGE-A/SYNC-ACTION-A': 'syncActionA',
-    'PAGE-A/SYNC-ACTION-B': 'syncActionB',
+  ActionCreator.prototype.bindActionTypes.call(self, 'PAGE_A', {
+    'PAGE_A/SYNC_ACTION_A': 'syncActionA',
+    'PAGE_A/SYNC_ACTION_B': 'syncActionB',
   });
 
   expect(self).toEqual({
-    'SYNC-ACTION-A': 'PAGE-A/SYNC-ACTION-A',
-    'SYNC-ACTION-B': 'PAGE-A/SYNC-ACTION-B',
+    'SYNC_ACTION_A': 'PAGE_A/SYNC_ACTION_A',
+    'SYNC_ACTION_B': 'PAGE_A/SYNC_ACTION_B',
   });
 });
 
@@ -55,20 +55,20 @@ test('Bind actions to class instance', () => {
   const self = {};
 
   ActionCreator.prototype.bindActions.call(self, {
-    'syncActionA': 'PAGE-A/SYNC-ACTION-A',
-    'syncActionB': 'PAGE-A/SYNC-ACTION-B',
+    'syncActionA': 'PAGE_A/SYNC_ACTION_A',
+    'syncActionB': 'PAGE_A/SYNC_ACTION_B',
   });
 
   expect(self.syncActionA({somePayload: 'payloadValue'}))
     .toEqual({
-      type: 'PAGE-A/SYNC-ACTION-A',
+      type: 'PAGE_A/SYNC_ACTION_A',
       payload: {
         somePayload: 'payloadValue',
       },
     });
   expect(self.syncActionB({somePayload: 'payloadValue'}))
     .toEqual({
-      type: 'PAGE-A/SYNC-ACTION-B',
+      type: 'PAGE_A/SYNC_ACTION_B',
       payload: {
         somePayload: 'payloadValue',
       },

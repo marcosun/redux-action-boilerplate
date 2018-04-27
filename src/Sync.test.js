@@ -10,9 +10,9 @@ test('Create synchronise actions and action types', () => {
     ],
   });
 
-  expect(action).toHaveProperty('SYNC-ACTION-A', 'PAGE-A/SYNC-ACTION-A');
-  expect(action).toHaveProperty('SYNC-ACTION-B', 'PAGE-A/SYNC-ACTION-B');
-  expect(action).toHaveProperty('SYNC-ACTION-C', 'PAGE-A/SYNC-ACTION-C');
+  expect(action).toHaveProperty('SYNC_ACTION_A', 'PAGE_A/SYNC_ACTION_A');
+  expect(action).toHaveProperty('SYNC_ACTION_B', 'PAGE_A/SYNC_ACTION_B');
+  expect(action).toHaveProperty('SYNC_ACTION_C', 'PAGE_A/SYNC_ACTION_C');
 
   expect(action).toHaveProperty('syncActionA');
   expect(action).toHaveProperty('syncActionB');
