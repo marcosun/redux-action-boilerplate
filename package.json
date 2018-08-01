@@ -13,7 +13,8 @@
     "doc": "jsdoc src -r",
     "test": "jest",
     "test:watch": "npm test -- --watch",
-    "version": "yarn test && yarn build && npm publish build"
+    "preversion": "yarn test",
+    "version": "yarn build && npm publish build"
   },
   "repository": "git@github.com:marcosun/redux-action-boilerplate.git",
   "author": "marcosun <marcoinbristol@gmail.com>",
