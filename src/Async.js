@@ -19,6 +19,12 @@ export default class Async extends ActionCreator {
 
     const asyncActions = this.suffixAsyncActions(actions);
     this.options = this.convertOptions(prefix, asyncActions);
+    const mainExportedActions =
+      this.options.actions.filter((_, index)=>(index % 3) === 0)
+    const exportedSuccessActions =
+      this.options.actions.filter((_, index)=>((index - 1) % 3) === 0)
+    const exportedFailureActions =
+      this.options.actions.filter((_, index)=>((index - 2) % 3) === 0)
 
     const {
       actionTypeNameToActionNameRelations,
@@ -32,6 +38,15 @@ export default class Async extends ActionCreator {
 
     this.bindActionTypes(this.options.prefix, this.actionTypeNameToActionNameRelations);
     this.bindActions(this.actionNameToActionTypeNameRelations);
+    mainExportedActions.forEach((action, index) => {
+      const mainActionCreator = this[action];
+      const successAction = exportedSuccessActions[index];
+      const failureAction = exportedFailureActions[index];
+      mainActionCreator['success'] = this[successAction];
+      mainActionCreator['SUCCESS'] = this[successAction]['TYPE'];
+      mainActionCreator['failure'] = this[failureAction];
+      mainActionCreator['FAILURE'] = this[failureAction]['TYPE'];
+    });
   }
 
   /**

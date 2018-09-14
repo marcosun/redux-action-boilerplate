@@ -22,4 +22,11 @@ test('Create asynchronise actions and action types', () => {
   expect(action).toHaveProperty('asyncActionB');
   expect(action).toHaveProperty('asyncActionBSuccess');
   expect(action).toHaveProperty('asyncActionBFailure');
+
+  expect(action.asyncActionA).toHaveProperty('TYPE');
+  expect(action.asyncActionA).toHaveProperty('success');
+  expect(action.asyncActionA).toHaveProperty('failure');
+  expect(action.asyncActionA.TYPE).toEqual('PAGE_A/ASYNC_ACTION_A');
+  expect(action.asyncActionA.SUCCESS).toEqual('PAGE_A/ASYNC_ACTION_A_SUCCESS');
+  expect(action.asyncActionA.FAILURE).toEqual('PAGE_A/ASYNC_ACTION_A_FAILURE');
 });

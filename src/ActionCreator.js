@@ -4,12 +4,12 @@ import {
 } from 'humps';
 
 // Consider create an object memorising prefixes
-// and throw error is there are some dupliated prefixes
+// and throw error is there are some duplicated prefixes
 
 // Throw error if there are duplicated actions
 
 /**
- * Base class that will be extended by Aync and Async action reactors
+ * Base class that will be extended by Sync and Async action reactors
  */
 export default class ActionCreator {
   /**
@@ -99,6 +99,7 @@ export default class ActionCreator {
             payload,
           };
         };
+        this[actionName]['TYPE'] = actionTypeName;
       }
     }
   }

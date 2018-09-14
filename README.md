@@ -36,6 +36,14 @@ Actions are camel cased letters, i.e. fetchBooks.
       toggle, // => (payload) => {return {type: 'BOOK_LIST_PAGE/TOGGLE', payload,};}
       TOGGLE, // => 'BOOK_LIST_PAGE/TOGGLE'
     } from './syncAction.js';
+    
+    or:
+    import {
+      toggle, // => (payload) => {return {type: 'BOOK_LIST_PAGE/TOGGLE', payload,};}
+    } from './syncAction.js';
+    const {
+      TYPE // => 'BOOK_LIST_PAGE/TOGGLE'
+    } = toggle
 
 ### Async
 
@@ -56,3 +64,17 @@ Actions are camel cased letters, i.e. fetchBooks.
       FETCH_BOOKS_SUCCESS, // => 'BOOK_LIST_PAGE/FETCH_BOOKS_SUCCESS'
       FETCH_BOOKS_FAILURE, // => 'BOOK_LIST_PAGE/FETCH_BOOKS_FAILURE'
     } from './asyncAction.js';
+
+
+    or: 
+    import {
+      fetchBooks, // => (payload) => {return {type: 'BOOK_LIST_PAGE/FETCH_BOOKS', payload,};}
+    } from './asyncAction.js';
+        
+    const {
+      success, // => (payload) => {return {type: 'BOOK_LIST_PAGE/FETCH_BOOKS_SUCCESS', payload,};}
+      failure, // => (payload) => {return {type: 'BOOK_LIST_PAGE/FETCH_BOOKS_FAILURE', payload,};}
+      TYPE, // => 'BOOK_LIST_PAGE/FETCH_BOOKS'
+      SUCCESS, // => 'BOOK_LIST_PAGE/FETCH_BOOKS_SUCCESS'
+      FAILURE, // => 'BOOK_LIST_PAGE/FETCH_BOOKS_FAILURE'
+    } = fetchBooks;
