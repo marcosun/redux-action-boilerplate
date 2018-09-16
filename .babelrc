@@ -1,5 +1,14 @@
 {
   "presets": ["./script/babel-preset", "stage-0"],
+  "plugins": [
+    [
+      "import", [{
+        "libraryName": "lodash",
+        "libraryDirectory": "",
+        "camel2DashComponentName": false,
+      }],
+    ],
+  ],
   "env": {
     "test": {
       "plugins": ["transform-es2015-modules-commonjs"]

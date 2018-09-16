@@ -17,4 +17,12 @@ test('Create synchronise actions and action types', () => {
   expect(action).toHaveProperty('syncActionA');
   expect(action).toHaveProperty('syncActionB');
   expect(action).toHaveProperty('syncActionC');
+
+  expect(action.syncActionA).toHaveProperty('TYPE');
+  expect(action.syncActionB).toHaveProperty('TYPE');
+  expect(action.syncActionC).toHaveProperty('TYPE');
+
+  expect(action.syncActionA.TYPE).toEqual('PAGE_A/SYNC_ACTION_A');
+  expect(action.syncActionB.TYPE).toEqual('PAGE_A/SYNC_ACTION_B');
+  expect(action.syncActionC.TYPE).toEqual('PAGE_A/SYNC_ACTION_C');
 });

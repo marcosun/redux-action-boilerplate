@@ -3,23 +3,12 @@ import {
   decamelize,
 } from 'humps';
 
-// Consider create an object memorising prefixes
-// and throw error is there are some dupliated prefixes
+/* TODO: Throw error if there are duplicated prefixes */
 
-// Throw error if there are duplicated actions
+/* TODO: Throw error if there are duplicated actions */
 
-/**
- * Base class that will be extended by Aync and Async action reactors
- */
+/* Base class that will be extended by Sync and Async action reactors */
 export default class ActionCreator {
-  /**
-   * @param  {Object} options
-   * @param  {String} options.prefix - Action prefix. Must be unique app wide.
-   * @param  {String[]} options.actions - A list of action names.
-   */
-  constructor(options) {
-  }
-
   /**
    * @param  {String} prefix
    * @param  {String[]} actions
@@ -28,11 +17,9 @@ export default class ActionCreator {
   convertOptions(prefix, actions) {
     return {
       prefix: typeof prefix === 'string' ?
-        decamelize(prefix, {separator: '_'}).toUpperCase() :
+        decamelize(prefix, { separator: '_' }).toUpperCase() :
         '',
-      actions: actions.map((action) => {
-        return camelize(action);
-      }),
+      actions: actions.map((action) => camelize(action)),
     };
   }
 
@@ -42,7 +29,7 @@ export default class ActionCreator {
    * @return {String} Prefixed action type name.
    */
   convertActionTypeName(prefix, action) {
-    const decamelisedActionName = decamelize(action, {separator: '_'});
+    const decamelisedActionName = decamelize(action, { separator: '_' });
     const capitalisedActionName = decamelisedActionName.toUpperCase();
 
     return `${prefix}/${capitalisedActionName}`;
@@ -77,7 +64,7 @@ export default class ActionCreator {
    * @param  {Object} actionTypeNameToActionNameRelations
    */
   bindActionTypes(prefix, actionTypeNameToActionNameRelations) {
-    for (let actionTypeName in actionTypeNameToActionNameRelations) {
+    for (const actionTypeName in actionTypeNameToActionNameRelations) {
       if (actionTypeNameToActionNameRelations.hasOwnProperty(actionTypeName)) {
         this[actionTypeName.replace(`${prefix}/`, '')] = actionTypeName;
       }
@@ -89,7 +76,7 @@ export default class ActionCreator {
    * @param  {Object} actionNameToActionTypeNameRelations
    */
   bindActions(actionNameToActionTypeNameRelations) {
-    for (let actionName in actionNameToActionTypeNameRelations) {
+    for (const actionName in actionNameToActionTypeNameRelations) {
       if (actionNameToActionTypeNameRelations.hasOwnProperty(actionName)) {
         const actionTypeName = actionNameToActionTypeNameRelations[actionName];
 
@@ -99,6 +86,7 @@ export default class ActionCreator {
             payload,
           };
         };
+        this[actionName]['TYPE'] = actionTypeName;
       }
     }
   }
