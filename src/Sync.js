@@ -1,8 +1,6 @@
 import ActionCreator from './ActionCreator';
 
-/**
- * Sync actions
- */
+/* Sync actions */
 export default class Sync extends ActionCreator {
   /**
    * @param  {Object} options

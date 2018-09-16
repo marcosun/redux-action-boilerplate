@@ -24,15 +24,15 @@ test('Generate two mappings of action type names and action names', () => {
     [
       'syncActionA',
       'syncActionB',
-    ]
+    ],
   )).toEqual({
     actionTypeNameToActionNameRelations: {
       'PAGE_A/SYNC_ACTION_A': 'syncActionA',
       'PAGE_A/SYNC_ACTION_B': 'syncActionB',
     },
     actionNameToActionTypeNameRelations: {
-      'syncActionA': 'PAGE_A/SYNC_ACTION_A',
-      'syncActionB': 'PAGE_A/SYNC_ACTION_B',
+      syncActionA: 'PAGE_A/SYNC_ACTION_A',
+      syncActionB: 'PAGE_A/SYNC_ACTION_B',
     },
   });
 });
@@ -46,8 +46,8 @@ test('Bind action types to class instance', () => {
   });
 
   expect(self).toEqual({
-    'SYNC_ACTION_A': 'PAGE_A/SYNC_ACTION_A',
-    'SYNC_ACTION_B': 'PAGE_A/SYNC_ACTION_B',
+    SYNC_ACTION_A: 'PAGE_A/SYNC_ACTION_A',
+    SYNC_ACTION_B: 'PAGE_A/SYNC_ACTION_B',
   });
 });
 
@@ -55,18 +55,18 @@ test('Bind actions to class instance', () => {
   const self = {};
 
   ActionCreator.prototype.bindActions.call(self, {
-    'syncActionA': 'PAGE_A/SYNC_ACTION_A',
-    'syncActionB': 'PAGE_A/SYNC_ACTION_B',
+    syncActionA: 'PAGE_A/SYNC_ACTION_A',
+    syncActionB: 'PAGE_A/SYNC_ACTION_B',
   });
 
-  expect(self.syncActionA({somePayload: 'payloadValue'}))
+  expect(self.syncActionA({ somePayload: 'payloadValue' }))
     .toEqual({
       type: 'PAGE_A/SYNC_ACTION_A',
       payload: {
         somePayload: 'payloadValue',
       },
     });
-  expect(self.syncActionB({somePayload: 'payloadValue'}))
+  expect(self.syncActionB({ somePayload: 'payloadValue' }))
     .toEqual({
       type: 'PAGE_A/SYNC_ACTION_B',
       payload: {
