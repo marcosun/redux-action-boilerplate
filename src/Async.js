@@ -1,4 +1,5 @@
 import ActionCreator from './ActionCreator';
+import { flatten } from 'lodash';
 
 /* Sync actions */
 export default class Async extends ActionCreator {
@@ -48,6 +49,7 @@ export default class Async extends ActionCreator {
   }
 
   /**
+   * Return an array of async action names.
    * @param  {String[]} actions
    * @return {Object}
    */
@@ -56,8 +58,6 @@ export default class Async extends ActionCreator {
       return [action, `${action}Success`, `${action}Failure`];
     });
 
-    return asyncActions.reduce((sum, action) => {
-      return sum.concat(action);
-    }, []);
+    return flatten(asyncActions);
   }
 }
