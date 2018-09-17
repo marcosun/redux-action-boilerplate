@@ -18,8 +18,8 @@ Both functions accept the following parameters.
 
 |name|type|isRequired|default|remarks|
 |--|--|--|--|--|
-|prefix|String|N|''|Will be prefixed to each and every single action to prevent name conflicts. Recommended to set as page name.|
-|actions|[String]|Y||Action names must be unique under the same name space|
+|prefix|String|N|''|Will be prefixed to each and every single action names to prevent name conflicts. Usually equal to page name.|
+|actions|[String]|Y||Action names must be unique under the same name space.|
 
 The only difference between Sync and Async functions is that Sync creates one action for each action passed in, while Async maps three actions for each action it received to action, actionSuccess, and actionFailure.
 
@@ -30,59 +30,218 @@ Actions are letters in camel-case, i.e. fetchBooks.
 
 ### Sync
 
+Create a synchronous action to change redux store visibility filter.
+
 ```javascript
 // action.js
-import {Sync} from 'redux-action-boilerplate';
+import { Sync } from 'redux-action-boilerplate';
 
-export default new Sync({
-  prefix: 'bookListPage',
-  actions: ['toggle'],
+export const sync = new Sync({
+  /* Create a name space. */
+  prefix: 'users',
+  /* Create a synchronous action. */
+  actions: ['setVisibilityFilter'],
 });
 
-// in other files
-import {
-  toggle, // (payload) => {return {type: 'BOOK_LIST_PAGE/TOGGLE', payload};}
-} from './syncAction.js';
-const {
-  TYPE, // 'BOOK_LIST_PAGE/TOGGLE'
-} = toggle;
+// container.js
+import { sync } from './action.js';
 
-// or with legacy apis:
+const {
+  /**
+   * Signature:
+   * (payload) => ({ type: 'USERS/SET_VISIBILITY_FILTER', payload })
+   */
+  setVisibilityFilter,
+} = sync;
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    /**
+     * Dispatch an action to update visibility filter as seller.
+     * i.e. payload = { role: 'seller' }
+     */
+    onVisibilityFilterSet: (payload) => {
+      dispatch(setVisibilityFilter(payload));
+    },
+  };
+};
+
+// reducer.js
+import { sync } from './action.js';
+
+const { setVisibilityFilter } = sync;
+
+const initialState = {
+  users: [{
+    id: '1',
+    name: 'Alice',
+    role: 'admin',
+  }, {
+    id: '2',
+    name: 'Bill',
+    role: 'seller',
+  }],
+  visibilityFilter: '',
+};
+
+export default function Reducer(state=initialState, action) {
+  switch() {
+  /**
+   * Each synchronous action has a property TYPE equal to action name.
+   * setVisibilityFilter.TYPE = 'USERS/SET_VISIBILITY_FILTER'
+   */
+    case setVisibilityFilter.TYPE:
+      return {
+        ...state,
+        visibilityFilter: action.payload.role,
+      };
+    default:
+      return state;
+  }
+}
+
+// Legacy API:
+import { sync } from './action.js';
+
 import {
-  toggle, // (payload) => {return {type: 'BOOK_LIST_PAGE/TOGGLE', payload};}
-  TOGGLE, // 'BOOK_LIST_PAGE/TOGGLE'
-} from './action.js';
+  setVisibilityFilter, // (payload) => ({ type: 'USERS/SET_VISIBILITY_FILTER', payload })
+  SET_VISIBILITY_FILTER, // 'USERS/SET_VISIBILITY_FILTER'
+} from sync;
 ```
 
 ### Async
 
 ```javascript
 // action.js
-import {Async} from 'redux-action-boilerplate';
+import { Async } from 'redux-action-boilerplate';
 
-export default new Async({
-  prefix: 'bookListPage',
-  actions: ['fetchBooks'],
+export const async = new Async({
+  prefix: 'users',
+  /* Create an asynchronous action. Delete a user from redux store only if that user has been deleted from database */
+  actions: ['deleteUser'],
 });
 
-// in other files
-import {
-  fetchBooks, // (payload) => {return {type: 'BOOK_LIST_PAGE/FETCH_BOOKS', payload};}
-} from './action.js';
+// container.js
+import { async } from './action.js';
 
 const {
-  success, // (payload) => {return {type: 'BOOK_LIST_PAGE/FETCH_BOOKS_SUCCESS', payload};}
-  failure, // (payload) => {return {type: 'BOOK_LIST_PAGE/FETCH_BOOKS_FAILURE', payload};}
-  TYPE, // 'BOOK_LIST_PAGE/FETCH_BOOKS'
-  SUCCESS, // 'BOOK_LIST_PAGE/FETCH_BOOKS_SUCCESS'
-  FAILURE, // 'BOOK_LIST_PAGE/FETCH_BOOKS_FAILURE'
-} = fetchBooks;
+  /**
+   * Signature:
+   * (payload) => ({ type: 'USERS/DELETE_USER', payload })
+   */
+  deleteUser,
+} = async;
 
-// or with legacy apis:
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    /**
+     * Dispatch an action to delete a user by user id.
+     * i.e. payload = { id: '2' }
+     */
+    onUserDelete: (payload) => {
+      dispatch(deleteUser(payload));
+    },
+  };
+};
+
+// reducer.js
+import { async } from './action.js';
+
+const { deleteUser } = async;
+
+const initialState = {
+  users: [{
+    id: '1',
+    name: 'Alice',
+    role: 'admin',
+  }, {
+    id: '2',
+    name: 'Bill',
+    role: 'seller',
+  }],
+  /* API request status. */
+  isLoading: false,
+};
+
+export default function Reducer(state=initialState, action) {
+  switch() {
+  /**
+   * Each asynchronous action has a property TYPE equal to action name.
+   * deleteUser.TYPE = 'USERS/DELETE_USER'
+   */
+    case deleteUser.TYPE:
+      return {
+        ...state,
+      /* Toggle API request status. */
+        isLoading: true,
+      };
+  /**
+   * Each asynchronous action has a property SUCCESS.
+   * deleteUser.TYPE = 'USERS/DELETE_USER_SUCCESS'
+   */
+    case deleteUser.SUCCESS:
+    /* Delete user by user id. */
+    const id = action.payload.id;
+      return {
+      ...state,
+      users: state.users.filter((user) => user.id !== id),
+      /* Toggle API request status. */
+      isLoading: false,
+      };
+  /**
+   * Each asynchronous action has a property FAILURE.
+   * deleteUser.TYPE = 'USERS/DELETE_USER_FAILURE'
+   */
+    case deleteUser.FAILURE:
+      return {
+      ...state,
+      /* Toggle API request status. */
+      isLoading: false,
+      };
+    default:
+      return state;
+  }
+}
+
+// saga.js
+import { put, takeLatest } from 'redux-saga/effects';
+import { async } from './action.js';
+
+const { deleteUser } = async;
+
+function* deleteUserById(action) {
+  try {
+    /* ...AJAX */
+
+  /* User id to delete from redux store. */
+    const id = action.payload.id;
+
+    /**
+   * Each asynchronous action has a success action.
+   * Signature:
+     * (payload) => ({ type: 'USERS/DELETE_USER_SUCCESS', payload })
+     * Dispatch success action.
+     */
+  yield put(deleteUser.success({ id }));
+  } catch(err) {}
+    /**
+   * Each asynchronous action has a failure action.
+   * Signature:
+     * (payload) => ({ type: 'USERS/DELETE_USER_FAILURE', payload })
+     * Dispatch failure action.
+     */
+  yield put(deleteUser.failure(err));
+}
+
+export default function* () {
+  yield takeLatest(deleteUser.TYPE, deleteUserById);
+}
+
+// Legacy API:
 import {
-  fetchBooks, // (payload) => {return {type: 'BOOK_LIST_PAGE/FETCH_BOOKS', payload};}
-  fetchBooksSuccess, // (payload) => {return {type: 'BOOK_LIST_PAGE/FETCH_BOOKS_SUCCESS', payload};}
-  fetchBooksFailure, // (payload) => {return {type: 'BOOK_LIST_PAGE/FETCH_BOOKS_FAILURE', payload};}
+  fetchBooks, // (payload) => ({type: 'BOOK_LIST_PAGE/FETCH_BOOKS', payload})
+  fetchBooksSuccess, // (payload) => ({type: 'BOOK_LIST_PAGE/FETCH_BOOKS_SUCCESS', payload})
+  fetchBooksFailure, // (payload) => ({type: 'BOOK_LIST_PAGE/FETCH_BOOKS_FAILURE', payload})
   FETCH_BOOKS, // 'BOOK_LIST_PAGE/FETCH_BOOKS'
   FETCH_BOOKS_SUCCESS, // 'BOOK_LIST_PAGE/FETCH_BOOKS_SUCCESS'
   FETCH_BOOKS_FAILURE, // 'BOOK_LIST_PAGE/FETCH_BOOKS_FAILURE'
