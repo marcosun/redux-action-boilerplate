@@ -7,6 +7,13 @@ import invariant from './invariant';
  * */
 export default class ActionCreator {
   /**
+   * @param {object} options
+   * */
+  constructor(options) {
+    let {prefix, actions} = options;
+    this.$$convertedProps = ActionCreator.convertOptions(prefix, actions);
+  }
+  /**
    * @param  {String} prefix
    * @param  {String[]} actions
    * @return {Object}
@@ -75,10 +82,10 @@ export default class ActionCreator {
 
   /**
    * distribute add-on suffixes to actions
-   * @param {string} prefix
-   * @param {array} actions
+   * @param {object} options
    * */
-  integrateActionWithSuffixes(prefix, actions) {
+  integrateActionWithSuffixes(options) {
+    const {prefix, actions} = options;
     actions.forEach((action) => {
       const innerAction = ActionCreator.generateActionBinder(prefix, action);
       const {TYPE, creator, typeWithPrefix} = innerAction;

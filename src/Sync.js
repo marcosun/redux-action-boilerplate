@@ -11,8 +11,6 @@ export default class Sync extends ActionCreator {
    */
   constructor(options) {
     super(options);
-    let {prefix, actions} = options;
-    const convertedProps = ActionCreator.convertOptions(prefix, actions);
-    this.integrateActionWithSuffixes(convertedProps.prefix, convertedProps.actions);
+    this.integrateActionWithSuffixes(this.$$convertedProps);
   }
 }

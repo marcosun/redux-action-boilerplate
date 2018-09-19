@@ -10,10 +10,8 @@ export default class Async extends ActionCreator {
    * @param  {String[]} options.actions - A list of action names.
    */
   constructor(options) {
-    super(options)
-    let {prefix, actions} = options;
-    const convertedProps = ActionCreator.convertOptions(prefix, actions);
-    this.integrateActionWithSuffixes(convertedProps.prefix, convertedProps.actions);
+    super(options);
+    this.integrateActionWithSuffixes(this.$$convertedProps);
   }
 
   addOnStatus = ['success', 'failure']
