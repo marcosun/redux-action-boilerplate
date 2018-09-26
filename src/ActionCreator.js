@@ -4,23 +4,6 @@ import invariant from './invariant';
 /* Class to generate actions. */
 export default class ActionCreator {
   /**
-   * @param {object} options
-   */
-  constructor(options) {
-    const { prefix, actions } = options;
-    this.$$normalisedOptions = ActionCreator.normaliseOptions(prefix, actions);
-  }
-
-  /**
-   * @param {string} fixString
-   * @return {string}
-   */
-  static fixStringTransform(fixString) {
-    /* transform string from form like 'actionName' to 'ACTION_NAME'. */
-    return decamelize(fixString, { separator: '_' }).toUpperCase();
-  }
-
-  /**
    * @param {string} fixString
    * @return {string}
    */
@@ -38,9 +21,9 @@ export default class ActionCreator {
    */
   static generateActionBinder(prefix, actionName, suffix) {
     /* PREFIX, actionName, suffix => PREFIX/ACTION_NAME_SUFFIX. */
-    let TYPE = ActionCreator.fixStringTransform(actionName);
+    let TYPE = ActionCreator.toUnderscoreUpperCase(actionName);
     if (suffix) {
-      const capitalisedSuffix = ActionCreator.fixStringTransform(suffix);
+      const capitalisedSuffix = ActionCreator.toUnderscoreUpperCase(suffix);
       TYPE += (`_${capitalisedSuffix}`);
     }
     const typeWithPrefix = `${prefix}/${TYPE}`;
@@ -70,13 +53,30 @@ export default class ActionCreator {
     return {
       /* Prefix takes the form of SOME_PREFIX. */
       prefix: typeof prefix === 'string' ?
-        ActionCreator.fixStringTransform(prefix) :
+        ActionCreator.toUnderscoreUpperCase(prefix) :
         '',
       /* Actions takes the form of someActions. */
       actions: actions.map((action) => {
         return camelize(action);
       }),
     };
+  }
+
+  /**
+   * Transform string from actionName to ACTION_NAME.
+   * @param {string} string
+   * @return {string}
+   */
+  static toUnderscoreUpperCase(string) {
+    return decamelize(string, { separator: '_' }).toUpperCase();
+  }
+
+  /**
+   * @param {object} options
+   */
+  constructor(options) {
+    const { prefix, actions } = options;
+    this.$$normalisedOptions = ActionCreator.normaliseOptions(prefix, actions);
   }
 
   addOnStatus = []

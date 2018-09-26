@@ -1,7 +1,7 @@
 import ActionCreator from './ActionCreator';
 
 test('Camelize string', () => {
-  expect(ActionCreator.fixStringTransform('pageA')).toBe('PAGE_A');
+  expect(ActionCreator.toUnderscoreUpperCase('pageA')).toBe('PAGE_A');
 });
 
 test('Capitalize', () => {
