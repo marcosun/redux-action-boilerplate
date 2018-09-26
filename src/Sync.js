@@ -9,25 +9,6 @@ export default class Sync extends ActionCreator {
    */
   constructor(options) {
     super(options);
-
-    const {
-      prefix,
-      actions,
-    } = options;
-
-    this.options = this.convertOptions(prefix, actions);
-
-    const {
-      actionTypeNameToActionNameRelations,
-      actionNameToActionTypeNameRelations,
-    } = this.createActionTypeNameAndActionNameRelations(
-      this.options.prefix,
-      this.options.actions,
-    );
-    this.actionTypeNameToActionNameRelations = actionTypeNameToActionNameRelations;
-    this.actionNameToActionTypeNameRelations = actionNameToActionTypeNameRelations;
-
-    this.bindActionTypes(this.options.prefix, this.actionTypeNameToActionNameRelations);
-    this.bindActions(this.actionNameToActionTypeNameRelations);
+    this.integrateActionWithSuffixes(this.$$convertedProps);
   }
 }
