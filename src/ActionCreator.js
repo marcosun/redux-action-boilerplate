@@ -4,12 +4,12 @@ import invariant from './invariant';
 /* Class to generate actions. */
 export default class ActionCreator {
   /**
-   * @param {string} fixString
+   * Transform string to String.
+   * @param {string} string
    * @return {string}
    */
-  static capitalize(fixString) {
-    /* transform string form form like 'action' to 'Action'. */
-    return fixString[0].toUpperCase() + fixString.substr(1);
+  static capitalise(string) {
+    return string[0].toUpperCase() + string.slice(1);
   }
 
   /**
@@ -99,7 +99,7 @@ export default class ActionCreator {
         /* success: () => {} */
         this[action][status] = creator;
         /* actionSuccess: () => {} */
-        this[action + ActionCreator.capitalize(status)] = creator;
+        this[action + ActionCreator.capitalise(status)] = creator;
         /* SUCCESS: 'PREFIX_ACTION_SUCCESS' */
         this[action][status.toUpperCase()] = typeWithPrefix;
         /* ACTION_SUCCESS: 'PREFIX_ACTION_SUCCESS */

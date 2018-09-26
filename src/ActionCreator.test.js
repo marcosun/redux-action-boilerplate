@@ -4,8 +4,8 @@ test('Camelize string', () => {
   expect(ActionCreator.toUnderscoreUpperCase('pageA')).toBe('PAGE_A');
 });
 
-test('Capitalize', () => {
-  expect(ActionCreator.capitalize('pageA')).toBe('PageA');
+test('Capitalise', () => {
+  expect(ActionCreator.capitalise('pageA')).toBe('PageA');
 });
 
 test('generate Action and its creator', () => {
