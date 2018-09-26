@@ -8,27 +8,7 @@ export default class ActionCreator {
    */
   constructor(options) {
     const { prefix, actions } = options;
-    this.$$convertedProps = ActionCreator.convertOptions(prefix, actions);
-  }
-
-  /**
-   * @param  {String} prefix
-   * @param  {String[]} actions
-   * @return {Object}
-   */
-  static convertOptions(prefix, actions) {
-    invariant(
-      Array.isArray(actions),
-      'actions expect to be type of array',
-    );
-    return {
-      prefix: typeof prefix === 'string' ?
-        ActionCreator.fixStringTransform(prefix) :
-        '',
-      actions: actions.map((action) => {
-        return camelize(action);
-      }),
-    };
+    this.$$normalisedOptions = ActionCreator.normaliseOptions(prefix, actions);
   }
 
   /**
@@ -73,6 +53,29 @@ export default class ActionCreator {
           payload,
         };
       },
+    };
+  }
+
+  /**
+   * Process fault tolarent prefix and actions.
+   * @param  {string} prefix
+   * @param  {string[]} actions
+   * @return {object}
+   */
+  static normaliseOptions(prefix, actions) {
+    invariant(
+      Array.isArray(actions),
+      'actions expect to be type of array',
+    );
+    return {
+      /* Prefix takes the form of SOME_PREFIX. */
+      prefix: typeof prefix === 'string' ?
+        ActionCreator.fixStringTransform(prefix) :
+        '',
+      /* Actions takes the form of someActions. */
+      actions: actions.map((action) => {
+        return camelize(action);
+      }),
     };
   }
 

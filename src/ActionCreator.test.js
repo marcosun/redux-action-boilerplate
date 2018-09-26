@@ -15,7 +15,7 @@ test('generate Action and its creator', () => {
 });
 
 test('Camelise action names', () => {
-  expect(ActionCreator.convertOptions('pageA', [
+  expect(ActionCreator.normaliseOptions('pageA', [
     'sync-action-A',
     'sync-Action_b',
     'Sync actionC',

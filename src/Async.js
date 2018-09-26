@@ -10,7 +10,7 @@ export default class Async extends ActionCreator {
   constructor(options) {
     super(options);
 
-    this.integrateActionWithSuffixes(this.$$convertedProps);
+    this.integrateActionWithSuffixes(this.$$normalisedOptions);
   }
 
   addOnStatus = ['success', 'failure']
