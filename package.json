@@ -19,8 +19,7 @@
   "author": "marcosun <marcoinbristol@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "humps": "^2.0.1",
-    "lodash": "^4.17.11"
+    "humps": "^2.0.1"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
