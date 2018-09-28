@@ -10,8 +10,8 @@ test('Capitalise', () => {
 
 test('generate Action and its creator', () => {
   const result = ActionCreator.createActionElements('PAGE_A', 'actionName', 'success');
-  expect(result.TYPE).toBe('ACTION_NAME_SUCCESS');
-  expect(result.typeWithPrefix).toBe('PAGE_A/ACTION_NAME_SUCCESS');
+  expect(result.ACTION_TYPE).toBe('ACTION_NAME_SUCCESS');
+  expect(result.PREFIX_ACTION_TYPE).toBe('PAGE_A/ACTION_NAME_SUCCESS');
 });
 
 test('Camelise action names', () => {

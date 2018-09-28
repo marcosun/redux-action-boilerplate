@@ -13,7 +13,7 @@ export default class ActionCreator {
   }
 
   /**
-   * Create TYPE, PREFIX/TYPE and action creator.
+   * Create ACTION_TYPE, PREFIX/ACTION_TYPE and action creator.
    * @param {string} prefix
    * @param {string} actionName
    * @param {string} [suffix]
@@ -21,22 +21,22 @@ export default class ActionCreator {
    */
   static createActionElements(prefix, actionName, suffix) {
     /* PREFIX, actionName, suffix => PREFIX/ACTION_NAME_SUFFIX. */
-    let TYPE = ActionCreator.toUnderscoreUpperCase(actionName);
+    let ACTION_TYPE = ActionCreator.toUnderscoreUpperCase(actionName);
 
     /* Append suffix to TYPE */
     if (suffix) {
       const SUFFIX = ActionCreator.toUnderscoreUpperCase(suffix);
-      TYPE = `${TYPE}_${SUFFIX}`;
+      ACTION_TYPE = `${ACTION_TYPE}_${SUFFIX}`;
     }
 
-    const typeWithPrefix = `${prefix}/${TYPE}`;
+    const PREFIX_ACTION_TYPE = `${prefix}/${ACTION_TYPE}`;
 
     return {
-      TYPE,
-      typeWithPrefix,
-      creator: (payload) => {
+      ACTION_TYPE,
+      PREFIX_ACTION_TYPE,
+      actionCreator: (payload) => {
         return {
-          type: typeWithPrefix,
+          type: PREFIX_ACTION_TYPE,
           payload,
         };
       },
@@ -94,11 +94,10 @@ export default class ActionCreator {
   integrateActionWithSuffixes(options) {
     const { prefix, actions } = options;
     actions.forEach((action) => {
-      const innerAction = ActionCreator.createActionElements(prefix, action);
-      const { TYPE, creator, typeWithPrefix } = innerAction;
-      this[action] = creator;
-      this[action].TYPE = typeWithPrefix;
-      this[TYPE] = typeWithPrefix;
+      const { ACTION_TYPE, PREFIX_ACTION_TYPE, actionCreator } = ActionCreator.createActionElements(prefix, action);
+      this[action] = actionCreator;
+      this[action].TYPE = PREFIX_ACTION_TYPE;
+      this[ACTION_TYPE] = PREFIX_ACTION_TYPE;
       this.addOnStatus.forEach((status) => {
         const statusAction = ActionCreator.createActionElements(prefix, action, status);
         const { TYPE, creator, typeWithPrefix } = statusAction;
