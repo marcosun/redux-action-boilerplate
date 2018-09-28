@@ -13,20 +13,24 @@ export default class ActionCreator {
   }
 
   /**
-   * Generate action strings and its action creator
+   * Create TYPE, PREFIX/TYPE and action creator.
    * @param {string} prefix
    * @param {string} actionName
    * @param {string} [suffix]
    * @return {object}
    */
-  static generateActionBinder(prefix, actionName, suffix) {
+  static createActionElements(prefix, actionName, suffix) {
     /* PREFIX, actionName, suffix => PREFIX/ACTION_NAME_SUFFIX. */
     let TYPE = ActionCreator.toUnderscoreUpperCase(actionName);
+
+    /* Append suffix to TYPE */
     if (suffix) {
-      const capitalisedSuffix = ActionCreator.toUnderscoreUpperCase(suffix);
-      TYPE += (`_${capitalisedSuffix}`);
+      const SUFFIX = ActionCreator.toUnderscoreUpperCase(suffix);
+      TYPE = `${TYPE}_${SUFFIX}`;
     }
+
     const typeWithPrefix = `${prefix}/${TYPE}`;
+
     return {
       TYPE,
       typeWithPrefix,
@@ -50,6 +54,7 @@ export default class ActionCreator {
       Array.isArray(actions),
       'actions expect to be type of array',
     );
+
     return {
       /* Prefix takes the form of SOME_PREFIX. */
       prefix: typeof prefix === 'string' ?
@@ -76,6 +81,7 @@ export default class ActionCreator {
    */
   constructor(options) {
     const { prefix, actions } = options;
+
     this.$$normalisedOptions = ActionCreator.normaliseOptions(prefix, actions);
   }
 
@@ -88,13 +94,13 @@ export default class ActionCreator {
   integrateActionWithSuffixes(options) {
     const { prefix, actions } = options;
     actions.forEach((action) => {
-      const innerAction = ActionCreator.generateActionBinder(prefix, action);
+      const innerAction = ActionCreator.createActionElements(prefix, action);
       const { TYPE, creator, typeWithPrefix } = innerAction;
       this[action] = creator;
       this[action].TYPE = typeWithPrefix;
       this[TYPE] = typeWithPrefix;
       this.addOnStatus.forEach((status) => {
-        const statusAction = ActionCreator.generateActionBinder(prefix, action, status);
+        const statusAction = ActionCreator.createActionElements(prefix, action, status);
         const { TYPE, creator, typeWithPrefix } = statusAction;
         /* success: () => {} */
         this[action][status] = creator;

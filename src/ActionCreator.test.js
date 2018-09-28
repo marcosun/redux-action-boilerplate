@@ -9,7 +9,7 @@ test('Capitalise', () => {
 });
 
 test('generate Action and its creator', () => {
-  const result = ActionCreator.generateActionBinder('PAGE_A', 'actionName', 'success');
+  const result = ActionCreator.createActionElements('PAGE_A', 'actionName', 'success');
   expect(result.TYPE).toBe('ACTION_NAME_SUCCESS');
   expect(result.typeWithPrefix).toBe('PAGE_A/ACTION_NAME_SUCCESS');
 });
