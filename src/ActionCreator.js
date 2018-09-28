@@ -23,7 +23,7 @@ export default class ActionCreator {
     /* PREFIX, actionName, suffix => PREFIX/ACTION_NAME_SUFFIX. */
     let ACTION_TYPE = ActionCreator.toUnderscoreUpperCase(actionName);
 
-    /* Append suffix to TYPE */
+    /* Append suffix to TYPE. */
     if (suffix) {
       const SUFFIX = ActionCreator.toUnderscoreUpperCase(suffix);
       ACTION_TYPE = `${ACTION_TYPE}_${SUFFIX}`;
@@ -83,6 +83,8 @@ export default class ActionCreator {
     const { prefix, actions } = options;
 
     this.$$normalisedOptions = ActionCreator.normaliseOptions(prefix, actions);
+
+    this.integrateActionWithSuffixes();
   }
 
   addOnStatus = []
@@ -91,8 +93,8 @@ export default class ActionCreator {
    * Distribute add-on suffixes to actions
    * @param {object} options
    */
-  integrateActionWithSuffixes(options) {
-    const { prefix, actions } = options;
+  integrateActionWithSuffixes() {
+    const { prefix, actions } = this.$$normalisedOptions;
     actions.forEach((action) => {
       const { ACTION_TYPE, PREFIX_ACTION_TYPE, actionCreator } = ActionCreator.createActionElements(prefix, action);
       this[action] = actionCreator;
