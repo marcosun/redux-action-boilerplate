@@ -76,42 +76,94 @@ export default class ActionCreator {
     return decamelize(string, { separator: '_' }).toUpperCase();
   }
 
-  /**
-   * @param {object} options
-   */
   constructor(options) {
     const { prefix, actions } = options;
 
-    this.$$normalisedOptions = ActionCreator.normaliseOptions(prefix, actions);
+    this.addOnStatus = [];
 
-    this.integrateActionWithSuffixes();
+    this.$$normalisedOptions = ActionCreator.normaliseOptions(prefix, actions);
   }
 
-  addOnStatus = []
-
-  /**
-   * Distribute add-on suffixes to actions
-   * @param {object} options
-   */
-  integrateActionWithSuffixes() {
+  bindInstanceWithActions() {
     const { prefix, actions } = this.$$normalisedOptions;
+
     actions.forEach((action) => {
-      const { ACTION_TYPE, PREFIX_ACTION_TYPE, actionCreator } = ActionCreator.createActionElements(prefix, action);
-      this[action] = actionCreator;
-      this[action].TYPE = PREFIX_ACTION_TYPE;
-      this[ACTION_TYPE] = PREFIX_ACTION_TYPE;
-      this.addOnStatus.forEach((status) => {
-        const statusAction = ActionCreator.createActionElements(prefix, action, status);
-        const { TYPE, creator, typeWithPrefix } = statusAction;
-        /* success: () => {} */
-        this[action][status] = creator;
-        /* actionSuccess: () => {} */
-        this[action + ActionCreator.capitalise(status)] = creator;
-        /* SUCCESS: 'PREFIX_ACTION_SUCCESS' */
-        this[action][status.toUpperCase()] = typeWithPrefix;
-        /* ACTION_SUCCESS: 'PREFIX_ACTION_SUCCESS */
-        this[TYPE] = typeWithPrefix;
+      const {
+        ACTION_TYPE,
+        PREFIX_ACTION_TYPE,
+        actionCreator,
+      } = ActionCreator.createActionElements(prefix, action);
+
+      this.bindMainAction(action, PREFIX_ACTION_TYPE, actionCreator);
+      this.LEGACY_bindMainAction(ACTION_TYPE, PREFIX_ACTION_TYPE);
+
+      this.addOnStatus.forEach((suffix) => {
+        const {
+          ACTION_TYPE: ADD_ON_ACTION_TYPE,
+          PREFIX_ACTION_TYPE: PREFIX_ADD_ON_ACTION_TYPE,
+          actionCreator: addOnActionCreator,
+        } = ActionCreator.createActionElements(prefix, action, suffix);
+
+        this.bindAddOnAction(action, suffix, PREFIX_ADD_ON_ACTION_TYPE, addOnActionCreator);
+        this.LEGACY_bindAddOnAction(action, suffix, ADD_ON_ACTION_TYPE, PREFIX_ADD_ON_ACTION_TYPE, addOnActionCreator);
       });
     });
+  }
+
+  /**
+   * Bind actionCreator and PREFIX_ACTION_TYPE on instance.
+   * @param  {string} action
+   * @param  {string} PREFIX_ACTION_TYPE
+   * @param  {function} actionCreator
+   */
+  bindMainAction(action, PREFIX_ACTION_TYPE, actionCreator) {
+    /* Expose action creator on lower-cased property. */
+    this[action] = actionCreator;
+    /* Expose action type on TYPE property. */
+    this[action].TYPE = PREFIX_ACTION_TYPE;
+  }
+
+  /**
+   * Backward comaptibility.
+   * @param  {string} ACTION_TYPE
+   * @param  {string} PREFIX_ACTION_TYPE
+   */
+  LEGACY_bindMainAction(ACTION_TYPE, PREFIX_ACTION_TYPE) {
+    /* Expose action type on upper-cased property. */
+    this[ACTION_TYPE] = PREFIX_ACTION_TYPE;
+  }
+
+  /**
+   * Bind add-on actionCreator and add-on PREFIX_ACTION_TYPE on instance.
+   * i.e. someActionSuccess, PREFIX/SOME_ACTION_SUCCESS.
+   * @param  {string} action
+   * @param  {suffix} suffix
+   * @param  {string} PREFIX_ADD_ON_ACTION_TYPE
+   * @param  {function} addOnActionCreator
+   */
+  bindAddOnAction(action, suffix, PREFIX_ADD_ON_ACTION_TYPE, addOnActionCreator) {
+    const SUFFIX = suffix.toUpperCase();
+
+    /* Expose action creator on lower-cased property. */
+    this[action][suffix] = addOnActionCreator;
+    /* Expose action type on upper-cased property. */
+    this[action][SUFFIX] = PREFIX_ADD_ON_ACTION_TYPE;
+  }
+
+  /**
+   * Backward comaptibility.
+   * @param  {string} action
+   * @param  {suffix} suffix
+   * @param  {string} ADD_ON_ACTION_TYPE
+   * @param  {string} PREFIX_ADD_ON_ACTION_TYPE
+   * @param  {function} addOnActionCreator
+   */
+  LEGACY_bindAddOnAction(action, suffix, ADD_ON_ACTION_TYPE, PREFIX_ADD_ON_ACTION_TYPE, addOnActionCreator) {
+    const actionCreatorName = `${action}${ActionCreator.capitalise(suffix)}`;
+
+    /* Expose action creator on lower-cased property. */
+    this[actionCreatorName] = addOnActionCreator;
+    /* Expose action type on upper-cased property. */
+    this[ADD_ON_ACTION_TYPE] = PREFIX_ADD_ON_ACTION_TYPE;
   }
 }
