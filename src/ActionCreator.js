@@ -79,7 +79,7 @@ export default class ActionCreator {
   constructor(options) {
     const { prefix, actions } = options;
 
-    this.addOnStatus = [];
+    this.asyncSuffixes = [];
 
     this.$$normalisedOptions = ActionCreator.normaliseOptions(prefix, actions);
   }
