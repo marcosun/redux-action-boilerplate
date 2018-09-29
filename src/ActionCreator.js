@@ -97,16 +97,7 @@ export default class ActionCreator {
       this.bindMainAction(action, PREFIX_ACTION_TYPE, actionCreator);
       this.LEGACY_bindMainAction(ACTION_TYPE, PREFIX_ACTION_TYPE);
 
-      this.addOnStatus.forEach((suffix) => {
-        const {
-          ACTION_TYPE: ADD_ON_ACTION_TYPE,
-          PREFIX_ACTION_TYPE: PREFIX_ADD_ON_ACTION_TYPE,
-          actionCreator: addOnActionCreator,
-        } = ActionCreator.createActionElements(prefix, action, suffix);
-
-        this.bindAddOnAction(action, suffix, PREFIX_ADD_ON_ACTION_TYPE, addOnActionCreator);
-        this.LEGACY_bindAddOnAction(action, suffix, ADD_ON_ACTION_TYPE, PREFIX_ADD_ON_ACTION_TYPE, addOnActionCreator);
-      });
+      this.bindAddOnActions(prefix, action);
     });
   }
 
@@ -131,6 +122,20 @@ export default class ActionCreator {
   LEGACY_bindMainAction(ACTION_TYPE, PREFIX_ACTION_TYPE) {
     /* Expose action type on upper-cased property. */
     this[ACTION_TYPE] = PREFIX_ACTION_TYPE;
+  }
+
+  /* Bind bind add-on actions (i.e. success, failure) give the action name. */
+  bindAddOnActions(prefix, action) {
+    this.addOnStatus.forEach((suffix) => {
+      const {
+        ACTION_TYPE: ADD_ON_ACTION_TYPE,
+        PREFIX_ACTION_TYPE: PREFIX_ADD_ON_ACTION_TYPE,
+        actionCreator: addOnActionCreator,
+      } = ActionCreator.createActionElements(prefix, action, suffix);
+
+      this.bindAddOnAction(action, suffix, PREFIX_ADD_ON_ACTION_TYPE, addOnActionCreator);
+      this.LEGACY_bindAddOnAction(action, suffix, ADD_ON_ACTION_TYPE, PREFIX_ADD_ON_ACTION_TYPE, addOnActionCreator);
+    });
   }
 
   /**
