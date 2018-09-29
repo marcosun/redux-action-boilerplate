@@ -94,20 +94,20 @@ export default class ActionCreator {
         actionCreator,
       } = ActionCreator.createActionElements(prefix, action);
 
-      this.bindMainAction(action, PREFIX_ACTION_TYPE, actionCreator);
-      this.LEGACY_bindMainAction(ACTION_TYPE, PREFIX_ACTION_TYPE);
+      this.bindSyncAction(action, PREFIX_ACTION_TYPE, actionCreator);
+      this.LEGACY_bindSyncAction(ACTION_TYPE, PREFIX_ACTION_TYPE);
 
       this.bindAddOnActions(prefix, action);
     });
   }
 
   /**
-   * Bind actionCreator and PREFIX_ACTION_TYPE on instance.
+   * Bind sync actionCreator and PREFIX_ACTION_TYPE on instance.
    * @param  {string} action
    * @param  {string} PREFIX_ACTION_TYPE
    * @param  {function} actionCreator
    */
-  bindMainAction(action, PREFIX_ACTION_TYPE, actionCreator) {
+  bindSyncAction(action, PREFIX_ACTION_TYPE, actionCreator) {
     /* Expose action creator on lower-cased property. */
     this[action] = actionCreator;
     /* Expose action type on TYPE property. */
@@ -119,7 +119,7 @@ export default class ActionCreator {
    * @param  {string} ACTION_TYPE
    * @param  {string} PREFIX_ACTION_TYPE
    */
-  LEGACY_bindMainAction(ACTION_TYPE, PREFIX_ACTION_TYPE) {
+  LEGACY_bindSyncAction(ACTION_TYPE, PREFIX_ACTION_TYPE) {
     /* Expose action type on upper-cased property. */
     this[ACTION_TYPE] = PREFIX_ACTION_TYPE;
   }
