@@ -128,13 +128,13 @@ export default class ActionCreator {
   bindAsyncActions(prefix, action) {
     this.asyncSuffixes.forEach((suffix) => {
       const {
-        ACTION_TYPE: ADD_ON_ACTION_TYPE,
-        PREFIX_ACTION_TYPE: PREFIX_ADD_ON_ACTION_TYPE,
-        actionCreator: addOnActionCreator,
+        ACTION_TYPE: ASYNC_ACTION_TYPE,
+        PREFIX_ACTION_TYPE: PREFIX_ASYNC_ACTION_TYPE,
+        actionCreator: asyncActionCreator,
       } = ActionCreator.createActionElements(prefix, action, suffix);
 
-      this.bindAsyncAction(action, suffix, PREFIX_ADD_ON_ACTION_TYPE, addOnActionCreator);
-      this.LEGACY_bindAsyncAction(action, suffix, ADD_ON_ACTION_TYPE, PREFIX_ADD_ON_ACTION_TYPE, addOnActionCreator);
+      this.bindAsyncAction(action, suffix, PREFIX_ASYNC_ACTION_TYPE, asyncActionCreator);
+      this.LEGACY_bindAsyncAction(action, suffix, ASYNC_ACTION_TYPE, PREFIX_ASYNC_ACTION_TYPE, asyncActionCreator);
     });
   }
 
@@ -143,32 +143,32 @@ export default class ActionCreator {
    * i.e. someActionSuccess, PREFIX/SOME_ACTION_SUCCESS.
    * @param  {string} action
    * @param  {suffix} suffix
-   * @param  {string} PREFIX_ADD_ON_ACTION_TYPE
-   * @param  {function} addOnActionCreator
+   * @param  {string} PREFIX_ASYNC_ACTION_TYPE
+   * @param  {function} asyncActionCreator
    */
-  bindAsyncAction(action, suffix, PREFIX_ADD_ON_ACTION_TYPE, addOnActionCreator) {
+  bindAsyncAction(action, suffix, PREFIX_ASYNC_ACTION_TYPE, asyncActionCreator) {
     const SUFFIX = suffix.toUpperCase();
 
     /* Expose action creator on lower-cased property. */
-    this[action][suffix] = addOnActionCreator;
+    this[action][suffix] = asyncActionCreator;
     /* Expose action type on upper-cased property. */
-    this[action][SUFFIX] = PREFIX_ADD_ON_ACTION_TYPE;
+    this[action][SUFFIX] = PREFIX_ASYNC_ACTION_TYPE;
   }
 
   /**
    * Backward comaptibility.
    * @param  {string} action
    * @param  {suffix} suffix
-   * @param  {string} ADD_ON_ACTION_TYPE
-   * @param  {string} PREFIX_ADD_ON_ACTION_TYPE
-   * @param  {function} addOnActionCreator
+   * @param  {string} ASYNC_ACTION_TYPE
+   * @param  {string} PREFIX_ASYNC_ACTION_TYPE
+   * @param  {function} asyncActionCreator
    */
-  LEGACY_bindAsyncAction(action, suffix, ADD_ON_ACTION_TYPE, PREFIX_ADD_ON_ACTION_TYPE, addOnActionCreator) {
+  LEGACY_bindAsyncAction(action, suffix, ASYNC_ACTION_TYPE, PREFIX_ASYNC_ACTION_TYPE, asyncActionCreator) {
     const actionCreatorName = `${action}${ActionCreator.capitalise(suffix)}`;
 
     /* Expose action creator on lower-cased property. */
-    this[actionCreatorName] = addOnActionCreator;
+    this[actionCreatorName] = asyncActionCreator;
     /* Expose action type on upper-cased property. */
-    this[ADD_ON_ACTION_TYPE] = PREFIX_ADD_ON_ACTION_TYPE;
+    this[ASYNC_ACTION_TYPE] = PREFIX_ASYNC_ACTION_TYPE;
   }
 }
