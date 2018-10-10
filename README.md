@@ -1,3 +1,4 @@
+
 # redux-action-boilerplate
 
 ## Installation
@@ -30,7 +31,7 @@ Actions are letters in camel-case, i.e. fetchBooks.
 
 ### Sync
 
-Create a synchronous action to change redux store visibility filter.
+Create a synchronous action to change visibility filter.
 
 ```javascript
 // action.js
@@ -85,11 +86,11 @@ const initialState = {
 };
 
 export default function Reducer(state=initialState, action) {
-  switch() {
-  /**
-   * Each synchronous action has a property TYPE equal to action name.
-   * setVisibilityFilter.TYPE = 'USERS/SET_VISIBILITY_FILTER'
-   */
+  switch(action.type) {
+    /**
+     * Each synchronous action has a property TYPE equal to action name.
+     * setVisibilityFilter.TYPE = 'USERS/SET_VISIBILITY_FILTER'
+     */
     case setVisibilityFilter.TYPE:
       return {
         ...state,
@@ -117,7 +118,10 @@ import { Async } from 'redux-action-boilerplate';
 
 export const async = new Async({
   prefix: 'users',
-  /* Create an asynchronous action. Delete a user from redux store only if that user has been deleted from database */
+  /**
+   * Create an asynchronous action.
+   * Delete a user from redux store only if that user has been deleted from database.
+   */
   actions: ['deleteUser'],
 });
 
@@ -164,39 +168,40 @@ const initialState = {
 };
 
 export default function Reducer(state=initialState, action) {
-  switch() {
-  /**
-   * Each asynchronous action has a property TYPE equal to action name.
-   * deleteUser.TYPE = 'USERS/DELETE_USER'
-   */
+  switch(action.type) {
+    /**
+     * Each asynchronous action has a property TYPE equal to action name.
+     * deleteUser.TYPE = 'USERS/DELETE_USER'
+     */
     case deleteUser.TYPE:
       return {
         ...state,
-      /* Toggle API request status. */
+        /* Toggle API request status. */
         isLoading: true,
       };
-  /**
-   * Each asynchronous action has a property SUCCESS.
-   * deleteUser.TYPE = 'USERS/DELETE_USER_SUCCESS'
-   */
+    /**
+     * Each asynchronous action has a property SUCCESS.
+     * deleteUser.TYPE = 'USERS/DELETE_USER_SUCCESS'
+     */
     case deleteUser.SUCCESS:
-    /* Delete user by user id. */
-    const id = action.payload.id;
+      /* Delete user by user id. */
+      const id = action.payload.id;
+
       return {
-      ...state,
-      users: state.users.filter((user) => user.id !== id),
-      /* Toggle API request status. */
-      isLoading: false,
+        ...state,
+        users: state.users.filter((user) => user.id !== id),
+        /* Toggle API request status. */
+        isLoading: false,
       };
-  /**
-   * Each asynchronous action has a property FAILURE.
-   * deleteUser.TYPE = 'USERS/DELETE_USER_FAILURE'
-   */
+    /**
+     * Each asynchronous action has a property FAILURE.
+     * deleteUser.TYPE = 'USERS/DELETE_USER_FAILURE'
+     */
     case deleteUser.FAILURE:
       return {
-      ...state,
-      /* Toggle API request status. */
-      isLoading: false,
+        ...state,
+        /* Toggle API request status. */
+        isLoading: false,
       };
     default:
       return state;
@@ -213,24 +218,24 @@ function* deleteUserById(action) {
   try {
     /* ...AJAX */
 
-  /* User id to delete from redux store. */
+    /* User id to delete from redux store. */
     const id = action.payload.id;
 
     /**
-   * Each asynchronous action has a success action.
-   * Signature:
+     * Each asynchronous action has a success action.
+     * Signature:
      * (payload) => ({ type: 'USERS/DELETE_USER_SUCCESS', payload })
      * Dispatch success action.
      */
-  yield put(deleteUser.success({ id }));
+    yield put(deleteUser.success({ id }));
   } catch(err) {}
     /**
-   * Each asynchronous action has a failure action.
-   * Signature:
+     * Each asynchronous action has a failure action.
+     * Signature:
      * (payload) => ({ type: 'USERS/DELETE_USER_FAILURE', payload })
      * Dispatch failure action.
      */
-  yield put(deleteUser.failure(err));
+    yield put(deleteUser.failure(err));
 }
 
 export default function* () {
